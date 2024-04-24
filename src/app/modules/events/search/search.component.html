@@ -1,0 +1,11 @@
+<div class="text-4xl">
+    
+    <form (ngSubmit)="search()">
+
+        <input name="keyword" type="text" class="text-field" [(ngModel)]="form.keyword">
+
+    </form>
+
+    {{form | json}}
+    
+</div>
