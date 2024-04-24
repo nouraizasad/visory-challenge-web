@@ -1,0 +1,46 @@
+/* colours */
+$primary: #013030;
+$secondary: #EC8F5E;
+$secondary-light: #EC8F5E1A;
+$primary-light: #60B798;
+$primary-light-25: #60b79949;
+$accent: #FFB9B1;
+$black: #181818;
+$white: #FFFFFF;
+$grey: #4D4D4D;
+$grey-medium: #8A8A8A;
+$grey-light: #E5E4E4;
+.font-color-primary { color: $primary; }
+.font-color-secondary { color: $secondary; }
+.font-color-primary-light { color: $primary-light; }
+.font-color-primary-light { color: $primary-light; }
+.font-color-accent { color: $accent; }
+.font-color-black { color: $black; }
+.font-color-white { color: $white; }
+
+/* fonts */
+@font-face { font-family: 'Lora-Regular'; src: url("../../../assets/fonts/lora/Lora-Regular.ttf") format("truetype"); }
+@font-face { font-family: 'Lora-Bold'; src: url("../../../assets/fonts/lora/Lora-Bold.ttf") format("truetype"); }
+@font-face { font-family: 'Lora-SemiBold'; src: url("../../../assets/fonts/lora/Lora-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: 'Lora-Medium'; src: url("../../../assets/fonts/lora/Lora-Medium.ttf") format("truetype"); }
+$lora-regular: 'Lora-Regular';
+$lora-bold: 'Lora-Bold';
+$lora-semibold: 'Lora-SemiBold';
+$lora-medium: 'Lora-Medium';
+.lora-regular { font-family: $lora-regular;}
+.lora-bold { font-family: $lora-bold;}
+.lora-semibold { font-family: $lora-semibold;}
+.lora-medium { font-family: $lora-medium;}
+
+@font-face { font-family: 'Inter-Regular'; src: url("../../../assets/fonts/inter/Inter-Regular.ttf") format("truetype"); }
+@font-face { font-family: 'Inter-Bold'; src: url("../../../assets/fonts/inter/Inter-Bold.ttf") format("truetype"); }
+@font-face { font-family: 'Inter-SemiBold'; src: url("../../../assets/fonts/inter/Inter-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: 'Inter-Medium'; src: url("../../../assets/fonts/inter/Inter-Medium.ttf") format("truetype"); }
+$inter-regular: 'Inter-Regular';
+$inter-bold: 'Inter-Bold';
+$inter-semibold: 'Inter-SemiBold';
+$inter-medium: 'Inter-Medium';
+.inter-regular { font-family: $inter-regular;}
+.inter-bold { font-family: $inter-bold;}
+.inter-semibold { font-family: $inter-semibold;}
+.inter-medium { font-family: $inter-medium;}
