@@ -1,0 +1,10 @@
+.event-card{
+    border: none;
+    outline: 1px solid #E5E4E4;
+    border-radius: 1.5rem;
+    padding: 1rem 1.5rem;
+
+    &:hover{
+        outline: 1px solid #666666;
+    }
+}

@@ -1,0 +1,82 @@
+<div class="flex flex-col h-full">
+
+    <div>
+        <h1 class="text-4xl ">Browse <b>Awesome Events</b> happening near you!</h1>
+        <h4 class="text-lg">brought to you by Nouraiz 😎</h4>
+        <br>
+        
+        <form #formRef="ngForm" (ngSubmit)="search()" class="flex">
+    
+            <div>
+                <label for="keyword" class="block pb-1.5">Search</label>
+                <input name="keyword" type="text" class="text-field me-4" [(ngModel)]="form.keyword" placeholder="Enter Keyword">
+            </div>
+    
+            <div>
+                <label for="countryCode" class="block pb-1.5">Select Country</label>
+                <select name="countryCode" [(ngModel)]="form.countryCode" class="text-field me-4">
+                    <option value="" disabled selected>Select Country</option>
+                    <option class="text-black" *ngFor="let country of countryCodes" [ngValue]="country.code">{{country.name}}</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="keyword" class="block pb-1.5">Postal Code</label>
+                <input name="keyword" type="number" class="text-field me-4" [(ngModel)]="form.postalCode" placeholder="Enter Postal Code">
+            </div>
+    
+            <div>
+                <label for="startDateTime" class="block pb-1.5">Events Starting After</label>
+                <input name="startDateTime" type="datetime-local" class="text-field me-4" [(ngModel)]="form.startDateTime">
+            </div>
+    
+            <div>
+                <label for="endDateTime" class="block pb-1.5">Events Starting Before</label>
+                <input name="endDateTime" type="datetime-local" class="text-field me-4" [(ngModel)]="form.endDateTime">
+            </div>
+            
+            <div class="flex items-end">
+                <button type="submit" class="text-field me-4" [disabled]="isLoading">
+                    <div *ngIf="!isLoading; else loader" class="fade-in-custom">GO!</div>
+                </button>
+            </div>
+
+            <div *ngIf="isFormDirty" class="flex items-end">
+                <button type="button" class="fade-in-custom text-field" [disabled]="isLoading" (click)="resetFilters()">
+                    <div>Reset Filters</div>
+                </button>
+            </div>
+    
+    
+        </form>
+    
+        <!-- {{isFormDirty | json}}
+        {{form | json}} -->
+    </div>
+
+    <div class="grow pt-6">
+
+        <div *ngIf="isLoading; else cards" class="h-full flex items-center justify-center">
+            <ng-template [ngTemplateOutlet]="loader" [ngTemplateOutletContext]="{appendClass: 'h-20 w-20 border-8'}"></ng-template>
+        </div>
+
+        <div *ngIf="!isDirty" class="h-full flex items-center justify-center">
+            <div class="text-3xl">Start By Using the filters above!</div>
+        </div>
+
+        <ng-template #cards>
+            <div class="grid grid-cols-3 gap-6">
+                <app-event-card *ngFor="let event of events" [event]="event"></app-event-card>
+            </div>
+        </ng-template>
+
+    </div>
+
+</div>
+
+<!-- loader template -->
+<ng-template #loader let-appendClass="appendClass">
+    <div class="fade-in-custom">
+        <div class="w-6 h-6 border-2 border-dashed rounded-full animate-spin border-blue-600" [class]="appendClass"></div>
+    </div>
+</ng-template>
