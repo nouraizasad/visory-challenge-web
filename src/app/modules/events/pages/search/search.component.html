@@ -1,5 +1,4 @@
 <div class="flex flex-col h-full">
-
     <div>
         <h1 class="text-4xl ">Browse <b>Awesome Events</b> happening near you!</h1>
         <h4 class="text-lg">brought to you by Nouraiz 😎</h4>
@@ -36,13 +35,14 @@
             </div>
             
             <div class="flex items-end">
-                <button type="submit" class="text-field me-4" [disabled]="isLoading">
-                    <div *ngIf="!isLoading; else loader" class="fade-in-custom">GO!</div>
+                <button class="me-3" type="submit" class="text-field me-4" [disabled]="isLoading">
+                    <div *ngIf="!isLoading;" class="fade-in-custom">GO!</div>
+                    <ng-template *ngIf="isLoading" [ngTemplateOutlet]="loader" [ngTemplateOutletContext]="{appendClass: 'w-6 h-6 border-2 '}"></ng-template>
                 </button>
             </div>
 
             <div *ngIf="isFormDirty" class="flex items-end">
-                <button type="button" class="fade-in-custom text-field" [disabled]="isLoading" (click)="resetFilters()">
+                <button class="me-3" type="button" class="fade-in-custom text-field" [disabled]="isLoading" (click)="resetFilters()">
                     <div>Reset Filters</div>
                 </button>
             </div>
@@ -65,9 +65,18 @@
         </div>
 
         <ng-template #cards>
-            <div class="grid grid-cols-3 gap-6 fade-in-custom">
-                <app-event-card *ngFor="let event of events" [event]="event"></app-event-card>
-            </div>
+            <ng-container *ngIf="events.length && !isLoading">
+                <div class="grid grid-cols-3 gap-6 fade-in-custom">
+                    <app-event-card *ngFor="let event of events" [event]="event"></app-event-card>
+                </div>
+                <div class="pt-6 pb-12">
+                    <button class="me-3" (click)="paginationHandler(pageLinks.first?.href)">first</button>
+                    <button class="me-3" (click)="paginationHandler(pageLinks.prev?.href)">back</button>
+                    <button class="me-3" >{{page + 1}}</button>
+                    <button class="me-3" (click)="paginationHandler(pageLinks.next?.href)">forward</button>
+                    <button class="me-3" (click)="paginationHandler(pageLinks.last?.href)">last</button>
+                </div>
+            </ng-container>
         </ng-template>
 
     </div>
@@ -77,6 +86,6 @@
 <!-- loader template -->
 <ng-template #loader let-appendClass="appendClass">
     <div class="fade-in-custom">
-        <div class="w-6 h-6 border-2 border-dashed rounded-full animate-spin border-blue-600" [class]="appendClass"></div>
+        <div class="border-dashed rounded-full animate-spin border-blue-600" [class]="appendClass"></div>
     </div>
 </ng-template>

@@ -17,7 +17,7 @@ export class SearchComponent implements AfterViewInit {
 
   isLoading: boolean = false;
 
-  isDirty: boolean = false;
+  isDirty: boolean = false; // to track if the first search has been made
 
   form: any = {
     keyword: '',
@@ -29,9 +29,12 @@ export class SearchComponent implements AfterViewInit {
 
   isFormDirty: boolean = false;
 
-  page: number = 1;
+  page: number = 0;
 
-  pageSize: number = 10;
+  /**
+   * Set page size here.
+   */
+  pageSize: number = 12;
 
   /**
    * Added just a few countries to keep it simple. Can eventually be asyncronously loaded for complete list
@@ -68,6 +71,8 @@ export class SearchComponent implements AfterViewInit {
   ]
 
   events: any[] = [];
+
+  pageLinks: any;
   
   constructor(private eventsService: EventsService) { }
 
@@ -80,19 +85,22 @@ export class SearchComponent implements AfterViewInit {
     }, 0);
   }
   
-  async search() {
+  async search(paginationParams: any = {}) {
     try {
       this.isLoading = true;
       this.isDirty = true;
+      if (!Object.keys(paginationParams).length) { this.page = 0 }
       const queryParams = { 
         ...this.form,
         startDateTime: this.form.startDateTime && this.removeMilliseconds(new Date(this.form.startDateTime).toISOString()) || '',
         endDateTime: this.form.endDateTime && this.removeMilliseconds(new Date(this.form.endDateTime).toISOString()) || '',
         page: this.page, 
-        pageSize: this.pageSize 
+        size: this.pageSize,
+        ...paginationParams,
       }
       const res = await this.eventsService.getEvents(queryParams);
       this.events = res.data._embedded.events;
+      this.pageLinks = res.data._links;
       console.log(this.events);
     } catch (error) {
       console.log(error);
@@ -101,7 +109,21 @@ export class SearchComponent implements AfterViewInit {
     }
   }
 
+  async paginationHandler(href: string) {
+    if (!href) return;
+    const params: any = {};
+    const paramsString = href.split('?')[1].split('&');
+    paramsString.forEach(str => {
+      const entry = str.split('=');
+      params[entry[0]] = entry[1];
+    })
+    this.page = parseInt(params.page);
+    if (params.page * params.size >= 1000) { return alert('This will exceed dev API limits: Max paging depth (page * size) must be less than 1,000'); }
+    return this.search(params);
+  }
+
   resetFilters() {
+    this.page = 0;
     Object.keys(this.form).forEach((key) => this.form[key] = '');
     this.search();
   }
