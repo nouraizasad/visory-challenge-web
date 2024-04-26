@@ -50,8 +50,8 @@
     
         </form>
     
-        <!-- {{isFormDirty | json}}
-        {{form | json}} -->
+        <!-- {{isFormDirty | json}} -->
+        <!-- {{form | json}} -->
     </div>
 
     <div class="grow pt-6">
@@ -72,11 +72,11 @@
                 </div>
                 <div class="pt-6 pb-12 text-xl flex justify-end">
                     <div class="flex pagination-links-wrapper">
-                        <button class="me-3 rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="paginationHandler(pageLinks.first?.href)"><<</button>
-                        <button class="rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="paginationHandler(pageLinks.prev?.href)"><</button>
+                        <button class="me-3 rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="search(pageLinks.first?.href)"><<</button>
+                        <button class="rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="search(pageLinks.prev?.href)"><</button>
                         <span class="mx-4 text-base flex items-center">{{page + 1}}</span>
-                        <button class="me-3 rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="paginationHandler(pageLinks.next?.href)">></button>
-                        <button class="me-3 rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="paginationHandler(pageLinks.last?.href)">>></button>
+                        <button class="me-3 rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="search(pageLinks.next?.href)">></button>
+                        <button class="me-3 rounded-full p-1 flex items-center justify-center h-12 w-12" (click)="search(pageLinks.last?.href)">>></button>
                     </div>
                 </div>
             </ng-container>

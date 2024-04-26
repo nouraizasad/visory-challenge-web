@@ -4,6 +4,21 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { EventsService } from '../../../shared/services/events.service';
 import { EventCardComponent } from '../../components/event-card/event-card.component';
 
+interface ICountryCode {
+  code: string,
+  name: string,
+}
+
+interface IGetQueryParams {
+  keyword?: string,
+  countryCode?: string,
+  postalCode?: string,
+  startDateTime?: string,
+  endDateTime?: string,
+  page: string,
+  size: string,
+}
+
 @Component({
   selector: 'app-search',
   standalone: true,
@@ -17,9 +32,9 @@ export class SearchComponent implements AfterViewInit {
 
   isLoading: boolean = false;
 
-  isDirty: boolean = false; // to track if the first search has been made
+  isDirty: boolean = false; // Track if the first search has been made
 
-  form: any = {
+  form: Partial<IGetQueryParams> = {
     keyword: '',
     countryCode: '',
     postalCode: '',
@@ -37,12 +52,12 @@ export class SearchComponent implements AfterViewInit {
   pageSize: number = 12;
 
   /**
-   * Added just a few countries to keep it simple. Can eventually be asyncronously loaded for complete list
+   * Added only a few countries to keep it simple. Can eventually be asyncronously loaded for complete list
    */
-  countryCodes: any[] = [
+  countryCodes: ICountryCode[] = [
     {
       code: 'AU',
-      name: 'Australia'      
+      name: 'Australia',
     },
     {
       code: 'US',
@@ -85,49 +100,64 @@ export class SearchComponent implements AfterViewInit {
     }, 0);
   }
   
-  async search(paginationParams: any = {}) {
+  async search(href?: string) {
     try {
       this.isLoading = true;
       this.isDirty = true;
-      if (!Object.keys(paginationParams).length) { this.page = 0 }
-      const queryParams = { 
-        ...this.form,
-        startDateTime: this.form.startDateTime && this.removeMilliseconds(new Date(this.form.startDateTime).toISOString()) || '',
-        endDateTime: this.form.endDateTime && this.removeMilliseconds(new Date(this.form.endDateTime).toISOString()) || '',
-        page: this.page, 
-        size: this.pageSize,
-        ...paginationParams,
-      }
-      const res = await this.eventsService.getEvents(queryParams);
+      const params = this.getQueryParams(href);
+
+      if (parseInt(params.page as string) * parseInt(params.size as string) >= 1000) { return alert('This will exceed dev API limits: Max paging depth (page * size) must be less than 1,000'); }
+      
+      this.page = parseInt(params.page);
+
+      const res = await this.eventsService.getEvents(params);
       this.events = res.data._embedded?.events || [];
       this.pageLinks = res.data._links;
-      console.log(this.events);
     } catch (error) {
       console.log(error);
-    } finally { 
+    } finally {
       this.isLoading = false;
     }
   }
 
-  async paginationHandler(href: string) {
-    if (!href) return;
-    const params: any = {};
-    const paramsString = href.split('?')[1].split('&');
-    paramsString.forEach(str => {
-      const entry = str.split('=');
-      params[entry[0]] = entry[1];
-    })
-    if (params.page * params.size >= 1000) { return alert('This will exceed dev API limits: Max paging depth (page * size) must be less than 1,000'); }
-    this.page = parseInt(params.page);
-    return this.search(params);
+  /**
+   * 
+   * @param href - (optional) pagination url returned by ticketmaster api
+   * @returns queryParams object
+   */
+  getQueryParams(href?: string): IGetQueryParams {
+    let params: any = {};
+    if (href) { // use ticketmaster's url to build next query's params
+      const paramsString = href.split('?')[1].split('&');
+      paramsString.forEach(str => {
+        const entry = str.split('=');
+        params[entry[0] as keyof IGetQueryParams] = entry[1];
+      })
+    } else { // build query params using the form
+      this.page = 0;
+      params = {
+        ...this.form,
+        startDateTime: this.form.startDateTime && this.removeMilliseconds(new Date(this.form.startDateTime).toISOString()) || '',
+        endDateTime: this.form.endDateTime && this.removeMilliseconds(new Date(this.form.endDateTime).toISOString()) || '',
+        postalCode: this.form.postalCode || '',
+        page: this.page.toString(), 
+        size: this.pageSize.toString(),
+      }
+    }
+    return params as IGetQueryParams;
   }
 
   resetFilters() {
     this.page = 0;
-    Object.keys(this.form).forEach((key) => this.form[key] = '');
+    Object.keys(this.form).forEach((key: string) => this.form[key as keyof IGetQueryParams] = '');
     this.search();
   }
 
+  /**
+   * Remove milliseconds from a date's ISO string format
+   * @param date - ISO string
+   * @returns ISO string without milliseconds
+   */
   removeMilliseconds(date: string) {
       return date.split('.')[0] + 'Z';
   }
