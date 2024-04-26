@@ -1,27 +1,21 @@
 # VisoryWeb
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.9.
+This project is part of the visory engineering challenge - a simple application that allows users to browser events happening anywhere in the world. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.9. 
 
-## Development server
+## Pre-requisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This project requires that you have already set up and are running the node application: `https://github.com/nouraizasad/visory-challenge-node.git`
 
-## Code scaffolding
+## Installation (Dev Environment)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Clone the public repo: `https://github.com/nouraizasad/visory-challenge-web.git`
 
-## Build
+2. Navigate to project's root and run `npm i`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. Run `ng serve` to start the dev server
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+4. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+You may reach out to me at `asad.nouraiz@gmail.com` or `nouraizasad@hotmail.com` if you require further help.

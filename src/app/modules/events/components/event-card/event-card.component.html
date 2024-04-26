@@ -1,16 +1,13 @@
-<a class="event-card flex select-none" [href]="event.url" target="_blank">
+<a class="event-card flex gap-4 select-none" [href]="event.url" target="_blank">
     <div class="w-1/4 flex items-center">
         <img [src]="event.images[0]?.url" alt="" class=" w-full h-auto rounded-[.75rem]">
     </div>
-    <div class="w-3/4 px-4">
+    <div class="w-3/4 overflow-hidden">
         <div class="truncate font-bold text-lg">{{event.name}}</div>
-        <!-- <div>month day | time utc</div> -->
         <div>{{getDate(event.dates.start) | date : 'fullDate'}}<span *ngIf="event.dates.start.dateTime"> • {{getDate(event.dates.start) | date : 'shortTime'}}</span></div>
-        <!-- {{event.dates.start.dateTime | json}} -->
         <div>
             <span *ngIf="event._embedded?.venues[0]?.name">{{event._embedded?.venues[0]?.name}}, </span>
             <span>{{event._embedded?.venues[0]?.city?.name}}</span>
         </div>
-
     </div>
 </a>
