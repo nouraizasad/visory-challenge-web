@@ -99,7 +99,7 @@ export class SearchComponent implements AfterViewInit {
         ...paginationParams,
       }
       const res = await this.eventsService.getEvents(queryParams);
-      this.events = res.data._embedded.events;
+      this.events = res.data._embedded?.events || [];
       this.pageLinks = res.data._links;
       console.log(this.events);
     } catch (error) {

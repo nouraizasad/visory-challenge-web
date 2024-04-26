@@ -60,8 +60,9 @@
             <ng-template [ngTemplateOutlet]="loader" [ngTemplateOutletContext]="{appendClass: 'h-20 w-20 border-8'}"></ng-template>
         </div>
 
-        <div *ngIf="!isDirty" class="h-full flex items-center justify-center">
-            <div class="text-3xl">Start By Using the filters above!</div>
+        <div *ngIf="!events.length && !isLoading" class="h-full flex items-center justify-center fade-in-custom">
+            <div class="text-3xl" *ngIf="isDirty" >No results found 🥲 Try searching again.</div>
+            <div class="text-3xl" *ngIf="!isDirty">Search by using the filters above!</div>
         </div>
 
         <ng-template #cards>
