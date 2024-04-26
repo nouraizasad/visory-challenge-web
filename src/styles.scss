@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  height: 100vh;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+}
+
 .fade-in-custom {
     opacity: 0;
     animation-name: fadeIn;
