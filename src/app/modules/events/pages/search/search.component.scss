@@ -1,1 +1,13 @@
 @import "../../../shared/stylesheets/form.scss";
+
+.pagination-links-wrapper {
+    button {
+        border: none;
+        outline: 1px solid #E5E4E4;
+        border-radius: 100%;
+        
+        &:hover{
+            outline: 1px solid #666666;
+        }
+    }
+}

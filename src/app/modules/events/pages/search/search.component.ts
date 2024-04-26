@@ -117,8 +117,8 @@ export class SearchComponent implements AfterViewInit {
       const entry = str.split('=');
       params[entry[0]] = entry[1];
     })
-    this.page = parseInt(params.page);
     if (params.page * params.size >= 1000) { return alert('This will exceed dev API limits: Max paging depth (page * size) must be less than 1,000'); }
+    this.page = parseInt(params.page);
     return this.search(params);
   }
 
