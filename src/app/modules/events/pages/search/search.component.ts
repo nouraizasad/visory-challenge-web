@@ -93,10 +93,7 @@ export class SearchComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.formRef.valueChanges!.subscribe(() => {
-        this.isFormDirty = true;
-        // console.log(this.form)
-      })
+      this.formRef.valueChanges!.subscribe(() => { this.isFormDirty = true; })
     }, 0);
   }
   
@@ -121,7 +118,7 @@ export class SearchComponent implements AfterViewInit {
   }
 
   /**
-   * 
+   * Formats and returns query params object
    * @param href - (optional) pagination url returned by ticketmaster api
    * @returns queryParams object
    */
